@@ -1,52 +1,68 @@
-from _typeshed import SupportsLenAndGetItem
 import unittest
 
+#
+# A set of data structures to represent graphs
+#
+
 class Node(object):
+    """Represents a node in the graph"""
     def __init__(self, name):
-        self.name = name
-    
+        self.name = str(name)
+
     def get_name(self):
         return self.name
-    
-    def get_name(self):
-        return self.name
-    
+
     def __str__(self):
         return self.name
-    
+
     def __repr__(self):
         return self.name
+
     def __eq__(self, other):
         return self.name == other.name
+
     def __ne__(self, other):
         return not self.__eq__(other)
-    def __hash__(self):
-        return self.name.__hash__()
-    
-class Edge(object):
 
-    def __init__(self,src,dest):
-        self.src = src
+    def __hash__(self):
+        # This function is necessary so that Nodes can be used as
+        # keys in a dictionary, even though Nodes are mutable
+        return self.name.__hash__()
+
+
+class Edge(object):
+    """Represents an edge in the dictionary. Includes a source and
+    a destination."""
+    def __init__(self, src, dest):
+        self.source = src
         self.destination = dest
-    def get_destination(self):
-        return self.destination
+
     def get_source(self):
         return self.source
-    
+
+    def get_destination(self):
+        return self.destination
+
     def __str__(self):
-        return '{}->{}'.format(self.source, self.distance)
+        return '{}->{}'.format(self.source, self.destination)
+
 
 class WeightedEdge(Edge):
-    def __init__(self,src,dest,total_distance,outdoor_distance):
+    def __init__(self, src, dest, total_distance, outdoor_distance):
         self.source = src
-        self.destination = dest 
+        self.destination = dest
         self.total_distance = int(total_distance)
         self.outdoor_distance = int(outdoor_distance)
+
     def get_total_distance(self):
+        return self.total_distance
+
+    def get_outdoor_distance(self):
         return self.outdoor_distance
-    
+
     def __str__(self):
-        return ("%s->%s(%s,%s)"%(self.source,self.destination,self.total_distance,self.outdoor_distance))
+        return ("%s->%s (%s, %s)"%(self.source,self.destination,self.total_distance,self.outdoor_distance))
+
 
 class Digraph(object):
     """Represents a directed graph of Node and Edge objects"""
@@ -90,13 +106,13 @@ class Digraph(object):
         return self.nodes
     
 
-    def add_edge_to_self_egdes(edges, edge):
-        if not edge.get_source() in edges:
-            edges[edge.get_source()] = [(edge)]
-        else:
-            edges[edge.get_source()].append(edge)
+def add_edge_to_self_egdes(edges, edge):
+    if not edge.get_source() in edges:
+        edges[edge.get_source()] = [(edge)]
+    else:
+        edges[edge.get_source()].append(edge)
 
-            
+        
 
 
 # ================================================================
